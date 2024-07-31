@@ -10,17 +10,17 @@ import ru.telanors.soap.service.XsltService;
 
 import javax.xml.namespace.QName;
 
+import static ru.telanors.soap.util.SoapConstants.*;
+
 @Endpoint
 @RequiredArgsConstructor
 public class PersonEndpoint {
-
-    private static final String NAMESPACE_URI = "http://telanors.ru/soap/";
     private final XsltService xsltService;
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "personRequest")
+    @PayloadRoot(namespace = TARGET_NAMESPACE, localPart = PERSON_REQUEST_TAG)
     @ResponsePayload
     public JAXBElement<String> transformPerson(@RequestPayload JAXBElement<String> request) {
         String transformedXml = xsltService.transformXml(request.getValue());
-        return new JAXBElement<>(new QName(NAMESPACE_URI, "personResponse"), String.class, transformedXml);
+        return new JAXBElement<>(new QName(TARGET_NAMESPACE, PERSON_RESPONSE_TAG), String.class, transformedXml);
     }
 }

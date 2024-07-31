@@ -1,7 +1,6 @@
 package ru.telanors.rest.util.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import ru.telanors.rest.DTO.DocumentDTO;
 import ru.telanors.rest.entity.Document;

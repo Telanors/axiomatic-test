@@ -1,7 +1,9 @@
 package ru.telanors.rest.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import ru.telanors.rest.service.PersonService;
 import ru.telanors.rest.service.SoapClientService;
 import ru.telanors.rest.util.xml.XmlConverter;
 
+@Validated
 @RestController
 @RequestMapping("/rest/api/persons")
 @RequiredArgsConstructor
@@ -21,7 +24,7 @@ public class PersonController {
     private final XmlConverter xmlConverter;
 
     @PostMapping
-    public ResponseEntity<String> save(@RequestBody PersonDTO personDTO) throws Exception {
+    public ResponseEntity<String> save(@RequestBody @Valid PersonDTO personDTO) throws Exception {
         personService.save(personDTO);
         var personXml = xmlConverter.convertDtoToXml(personDTO, "person");
         var personXslt = soapClientService.sendRequest(personXml);

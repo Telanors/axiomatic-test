@@ -43,9 +43,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     @Override
     public void delete(Person person) {
         Session session = sessionFactory.getCurrentSession();
-        if (person != null) {
-            session.remove(person);
-        }
+        session.remove(person);
     }
 
     @Override

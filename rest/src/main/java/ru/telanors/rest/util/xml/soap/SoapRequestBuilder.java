@@ -1,22 +1,28 @@
 package ru.telanors.rest.util.xml.soap;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StreamUtils;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.StringWriter;
 
 @Component
 public class SoapRequestBuilder {
-    @Value("classpath:soap-envelope-template.xml")
-    private Resource soapTemplate;
+    public String createEnvelope(String body) throws JAXBException {
+        SoapEnvelope.SoapBody soapBody = new SoapEnvelope.SoapBody();
+        SoapEnvelope envelope = new SoapEnvelope();
 
-    public String createEnvelope(String body) throws IOException {
-        String templateContent = StreamUtils
-                .copyToString(soapTemplate.getInputStream(), StandardCharsets.UTF_8);
+        soapBody.setRequestBody(body);
+        envelope.setBody(soapBody);
 
-        return templateContent.replace("${body}", body);
+        JAXBContext jaxbContext = JAXBContext.newInstance(SoapEnvelope.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+        StringWriter sw = new StringWriter();
+        marshaller.marshal(envelope, sw);
+
+        return sw.toString();
     }
 }

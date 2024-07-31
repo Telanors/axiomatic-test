@@ -9,16 +9,11 @@ spring:
   jpa:
     properties:
       hibernate:
-        show_sql: true
-        format_sql: true
+        show_sql: false
+        format_sql: false
         hbm2ddl.auto: validate
         dialect: org.hibernate.dialect.PostgreSQLDialect
 server:
   port: 8080
 session:
   packages-to-scan: ru.telanors.rest.entity
-soap:
-  url: http://localhost:8081/soap
-  namespace: http://telanors.ru/soap/
-  request-name: personRequest
-  response-name: personResponse

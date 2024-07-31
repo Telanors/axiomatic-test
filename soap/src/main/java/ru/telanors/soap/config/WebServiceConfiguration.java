@@ -12,6 +12,8 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
+import static ru.telanors.soap.util.SoapConstants.TARGET_NAMESPACE;
+
 @EnableWs
 @Configuration
 public class WebServiceConfiguration extends WsConfigurerAdapter {
@@ -21,6 +23,7 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
         servlet.setTransformWsdlLocations(true);
+
         return new ServletRegistrationBean<>(servlet, "/soap/*");
     }
 
@@ -29,8 +32,9 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("PersonsPort");
         wsdl11Definition.setLocationUri("/soap");
-        wsdl11Definition.setTargetNamespace("http://telanors.ru/soap/");
+        wsdl11Definition.setTargetNamespace(TARGET_NAMESPACE);
         wsdl11Definition.setSchema(personsSchema);
+
         return wsdl11Definition;
     }
 

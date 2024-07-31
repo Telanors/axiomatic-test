@@ -42,9 +42,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @Override
     public void delete(Document document) {
         Session session = sessionFactory.getCurrentSession();
-        if (document != null) {
-            session.remove(document);
-        }
+        session.remove(document);
     }
 
     @Override
